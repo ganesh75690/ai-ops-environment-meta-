@@ -8,6 +8,10 @@ from baseline import run_baseline
 app = FastAPI()
 env = OpsEnv()
 
+@app.get("/")
+def home():
+    return {"message": "AI Ops Environment is running 🚀"}
+
 @app.get("/reset")
 def reset():
     return env.reset()

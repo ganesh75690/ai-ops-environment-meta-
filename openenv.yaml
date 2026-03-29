@@ -1,0 +1,11 @@
+name: ai-ops-environment
+description: AI Operations Manager Environment for task prioritization and decision-making
+version: 1.0
+
+endpoints:
+  reset: /reset
+  step: /step
+  state: /state
+  tasks: /tasks
+  grader: /grader
+  baseline: /baseline

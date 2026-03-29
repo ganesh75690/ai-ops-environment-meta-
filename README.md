@@ -5,10 +5,10 @@ Autonomous Decision-Making Environment for Task Prioritization
 🧪 Live Demo
 
 🌐 Hugging Face Space:
-👉 https://ganesh756-ai-ops-final.hf.space
+👉 https://ganesh756-ai-ops-system-site.hf.space/
 
 📘 API Docs (Recommended):
-👉 https://ganesh756-ai-ops-final.hf.space/docs
+👉 https://ganesh756-ai-ops-system-site.hf.space/docs
 
 ---
 
@@ -46,6 +46,11 @@ This project provides a structured AI training environment where agents learn to
 - 📌 Classify task priorities
 - ⚙️ Decide correct actions (assign, escalate, ignore)
 - 📊 Optimize decisions using reward-based evaluation
+
+
+<img width="1916" height="867" alt="image" src="https://github.com/user-attachments/assets/6449ce57-3030-4a9b-8323-2cbe1845a452" />
+
+<img width="1916" height="853" alt="image" src="https://github.com/user-attachments/assets/d9433477-a144-403d-9e8c-766663d80404" />
 
 ---
 

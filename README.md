@@ -176,7 +176,11 @@ Average Score: 0.7
 
 📌 Performance decreases with complexity — indicating realistic challenge scaling
 
+![WhatsApp Image 2026-03-30 at 11 15 42 PM](https://github.com/user-attachments/assets/66b4b9f1-ee53-4149-983b-e60ef8d0a9a8)
+
+
 ---
+
 
 # 🔎 Environment Design
 
@@ -194,7 +198,7 @@ Average Score: 0.7
 - System load
 - Historical outcomes
 
-![WhatsApp Image 2026-03-30 at 11 06 10 PM](https://github.com/user-attachments/assets/cdf6f571-fac0-4b7b-a7d1-67bada7be313)
+![WhatsApp Image 2026-03-30 at 11 11 15 PM](https://github.com/user-attachments/assets/07ec44ac-f274-43cc-bdfb-fa65f539789b)
 
 ---
 

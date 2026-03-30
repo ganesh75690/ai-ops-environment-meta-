@@ -4,7 +4,7 @@ from ai_ops_env.environment import OpsEnv
 from ai_ops_env.models import Action
 from ai_ops_env.tasks import get_tasks
 from ai_ops_env.grader import grade_easy
-from inference import run_baseline
+from ai_ops_env.inference import run_baseline
 
 app = FastAPI()
 env = OpsEnv()

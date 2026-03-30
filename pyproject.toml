@@ -3,12 +3,14 @@ name = "ai-ops-environment"
 version = "0.1.0"
 description = "AI Ops OpenEnv Environment for task prioritization"
 authors = [
-  { name="Ganesh" }
+    { name = "Ganesh" }
 ]
 requires-python = ">=3.9"
+
 dependencies = [
-  "fastapi",
-  "uvicorn"
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic"
 ]
 
 [build-system]

@@ -181,6 +181,20 @@ docker run -p 7860:7860 ai-ops-env
 
 **Average Score:** 0.7
 
+## 🔎 Environment Design
+
+### Action Space
+- Prioritize task
+- Escalate issue
+- Resolve task
+- Ignore
+
+### Observation Space
+- Task priority
+- Task complexity
+- System load
+- Previous outcomes
+
 ---
 
 🏆 Innovation

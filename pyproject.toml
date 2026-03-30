@@ -6,6 +6,7 @@ requires-python = ">=3.9"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["ai_ops_env*"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

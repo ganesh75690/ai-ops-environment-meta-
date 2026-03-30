@@ -5,7 +5,7 @@ description = "AI Ops OpenEnv Environment"
 requires-python = ">=3.9"
 
 [tool.setuptools]
-py-modules = ["main", "environment", "models", "state", "tasks", "grader", "inference"]
+packages = ["ai_ops_env"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

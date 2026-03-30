@@ -1306,7 +1306,7 @@ loadMetrics();
 
 @app.post("/reset")
 def reset():
-    state = env.reset
+    state = env.reset()
     return {"state": state}
 
 @app.post("/step")

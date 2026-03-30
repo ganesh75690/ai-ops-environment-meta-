@@ -203,7 +203,17 @@ Average Score: 0.7
 - Customer support systems
 - Workflow optimization
 - Enterprise AI decision systems
+  
 
+# 🧠 Technical Highlights
+
+- Designed using OpenEnv standard
+- Modular architecture (environment, models, grader)
+- Stateless API with reproducible outcomes
+- Scalable via Docker deployment
+- Extendable for RL / LLM agents
+
+⚙️ Built with production-ready principles
 ---
 
 # 🚀 What Makes This Unique

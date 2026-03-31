@@ -301,6 +301,9 @@ It introduces:
 - Environment-based AI learning
 - Realistic operational simulations
 
+![WhatsApp Image 2026-03-31 at 9 47 12 AM](https://github.com/user-attachments/assets/3c7b3c3c-25e4-4d55-ae43-957b75450207)
+
+
 # 🚀 What Makes This Unique?
 
 Unlike traditional AI demos, this system:

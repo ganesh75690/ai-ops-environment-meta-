@@ -266,9 +266,22 @@ Average Score: 0.7
 └── openenv.yaml
 ```
 
-# ⚙️ How to Run Locally :
+ # ⚙️ Setup Instructions :
+
+Follow these steps to run the AI Ops Intelligence System locally.
+
+---
+
+1️⃣ Clone the Repository :
+
+git clone https://github.com/your-username/ai-ops-environment.git
+cd ai-ops-environment
+
+2️⃣ Install Dependencies :
 
 pip install -r requirements.txt
+
+3️⃣ Run the API Server :
 
 uvicorn main:app --reload
 
@@ -282,6 +295,8 @@ Open:
 docker build -t ai-ops-env .
 
 docker run -p 7860:7860 ai-ops-env
+
+## 🔍 The system is fully deployable and ready for interaction via API endpoints
 ---
 
 # ⚠️ Limitations :

@@ -559,6 +559,6 @@ Enhancing system reliability
 🔮 Vision
 To enable a future where AI agents autonomously manage operations, continuously learning and improving through real-world feedback loops.
 
-💡 AI Ops Intelligence is a step toward truly intelligent, adaptive, and scalable operational ecosystems.
+# 💡 AI Ops Intelligence is a step toward truly intelligent, adaptive, and scalable operational ecosystems.
 
 ---

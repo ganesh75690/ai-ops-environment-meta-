@@ -1,178 +1,151 @@
 from ai_ops_env.environment import OpsEnv
 from ai_ops_env.models import Action
-import random
-import time
-
-# Learning memory for adaptive behavior
-learning_memory = {
-    "high": 0,
-    "medium": 0,
-    "low": 0
-}
 
 
-def bar(value, max_val=5):
-    filled = int((value / max_val) * 10)
-    return "[" + "#" * filled + "-" * (10 - filled) + "]"
+# -------------------------------
+# HEALTH SYSTEM
+# -------------------------------
+def calculate_system_health(tasks):
+    high = sum(1 for t in tasks if t.priority == "high")
+    medium = sum(1 for t in tasks if t.priority == "medium")
+    low = sum(1 for t in tasks if t.priority == "low")
+
+    total = len(tasks) if tasks else 1
+
+    health = 1 - ((high * 0.6 + medium * 0.3 + low * 0.1) / total)
+    return max(0, min(1, health))
 
 
-def calculate_score(task):
-    score = 0
-
+# -------------------------------
+# SMART AGENT (ADVANCED)
+# -------------------------------
+def smart_agent(task, health_score):
     if task.priority == "high":
-        score += 3
+        return "assign", 0.95, "Critical task"
     elif task.priority == "medium":
-        score += 2
+        if health_score < 0.5:
+            return "assign", 0.80, "System unstable"
+        return "assign", 0.65, "Normal handling"
     else:
-        score += 1
-
-    # simulate urgency / load factor
-    import random
-    score += random.uniform(0, 1)
-
-    return score
+        if health_score < 0.3:
+            return "assign", 0.55, "Low but critical system"
+        return "ignore", 0.40, "Low priority"
 
 
-# ✅ Learning agent (adapts over time)
-def learning_agent(task, system_load):
-    score = calculate_score(task)
-
-    # learning boost
-    score += learning_memory[task.priority]
-
-    # threshold changes with system load
-    threshold = 3.5 if system_load > 75 else 3
-
-    if score >= threshold:
-        action = "assign"
-    else:
-        action = "ignore"
-
-    return action, score
+# -------------------------------
+# LOGGING (STRICT FORMAT)
+# -------------------------------
+def log_start(task, env, model):
+    print(f"[START] task={task} env={env} model={model}", flush=True)
 
 
-# ✅ Smart decision engine agent (legacy)
-def smart_agent(task, system_load):
-    score = calculate_score(task)
+def log_step(step, action, reward, done, error=None):
+    error_val = error if error else "null"
+    done_val = str(done).lower()
 
-    # system under high load → stricter decisions
-    if system_load > 75:
-        threshold = 3.5
-    else:
-        threshold = 3
-
-    if score >= threshold:
-        return "assign", score
-    else:
-        return "ignore", score
+    print(
+        f"[STEP] step={step} action={action} reward={reward:.2f} done={done_val} error={error_val}",
+        flush=True,
+    )
 
 
-# ✅ Simple rule-based agent (legacy)
-def simple_agent(task):
-    if task.priority == "high":
-        return "assign"
-    elif task.priority == "medium":
-        return "assign"
-    else:
-        return "ignore"
+def log_end(success, steps, rewards, avg_health, efficiency):
+    rewards_str = ",".join([f"{r:.2f}" for r in rewards])
 
 
-# ✅ Main simulation
+    print(
+        f"[END] success={str(success).lower()} steps={steps} rewards={rewards_str}",
+        flush=True,
+    )
+
+
+# -------------------------------
+# MAIN EXECUTION
+# -------------------------------
 def run_baseline():
     env = OpsEnv()
     obs = env.reset()
 
-    total_reward = 0
+    rewards = []
     steps = 0
-    assigned = 0
-    ignored = 0
-    
-    system_load = random.randint(40, 90)  # %
-    print(f"\n⚙️ System Load: {system_load}%")
+    health_history = []
 
-    while steps < 5:   # limit steps
-        print(f"\nStep {steps+1}")
-        step_reward = 0
-        
-        print("\n📋 TASK QUEUE STATUS")
-        for task in obs.tasks:
-            print(f"Task {task.id} | Priority: {task.priority}")
-        print("-" * 40)
+    # ✅ START LOG (MANDATORY)
+    log_start("ai_ops_optimization", "ai_ops_env", "elite_agent_vFinal")
 
-        for task in obs.tasks:
-            print(f"⏳ Processing Task {task.id}...")
-            time.sleep(0.3)
-            
-            action_type, score = learning_agent(task, system_load)
+    try:
+        while steps < 5:
 
-            action = Action(
-                task_id=task.id,
-                action_type=action_type
-            )
+            # 🔥 SYSTEM HEALTH
+            health_score = calculate_system_health(obs.tasks)
+            health_history.append(health_score)
 
-            obs, reward, done, _ = env.step(action)
-            
-            confidence = min(score / 4, 1.0)
-            reason = f"Score={score:.2f} → {'High priority decision' if score >= 3 else 'Deferred'}"
+            for task in obs.tasks:
 
-            print(f"""
-Task {task.id}
-  Priority   : {task.priority}
-  Decision   : {action_type}
-  Score      : {score:.2f}
-  Score Visual: {bar(score)}
-  Confidence : {confidence:.2f}
-  Reason     : {reason}
-  Reward     : {reward}
-""")
-            
-            if learning_memory[task.priority] > 0.2:
-                print("📈 Agent learned this priority is important")
-            
-            if task.priority == "high" and action_type == "ignore":
-                print("⚠️ ALERT: High priority task ignored!")
+                # 🔥 SMART DECISION
+                action_type, confidence, reason = smart_agent(task, health_score)
 
-            total_reward += reward
-            step_reward += reward
-            
-            # Update learning memory based on reward
-            if reward > 0:
-                learning_memory[task.priority] += 0.1
-            else:
-                learning_memory[task.priority] -= 0.05
-            
-            if action_type == "assign":
-                assigned += 1
-            else:
-                ignored += 1
-        print(f"Step {steps+1} Total Reward: {step_reward}")
-        print("\n🧠 Learning State:")
-        for k, v in learning_memory.items():
-            print(f"{k}: {v:.2f}")
-        print("-" * 40)
-        steps += 1
+                action = Action(
+                    task_id=task.id,
+                    action_type=action_type
+                )
 
-    print("\n===== 🚀 AI OPS EXECUTIVE REPORT =====")
-    print(f"📊 Total Reward: {total_reward}")
-    print(f"📈 Avg Reward: {total_reward / steps:.2f}")
-    print(f"⚙️ System Load: {system_load}%")
-    print(f"✅ Tasks Assigned: {assigned}")
-    print(f"⏳ Tasks Ignored: {ignored}")
-    print(f"🎯 Efficiency: {(assigned/(assigned+ignored))*100:.2f}%")
-    
-    if total_reward > 5:
-        print("🟢 System Performance: OPTIMAL")
-    else:
-        print("🟡 System Performance: NEEDS IMPROVEMENT")
-    
-    print("\n🤖 Agent Evolution Summary:")
-    for k, v in learning_memory.items():
-        if v > 0:
-            print(f"{k}: Improved handling")
-        else:
-            print(f"{k}: Needs improvement")
+                obs, reward, done, _ = env.step(action)
+
+                rewards.append(reward)
+
+                # 🔥 STRONG ACTION STRING (AI STYLE)
+                action_str = (
+                    f"{action_type}"
+                    f"|p:{task.priority}"
+                    f"|c:{confidence:.2f}"
+                    f"|h:{health_score:.2f}"
+                )
+
+                # ✅ STEP LOG (STRICT)
+                log_step(
+                    step=steps + 1,
+                    action=action_str,
+                    reward=reward,
+                    done=done,
+                    error=None
+                )
+
+                if done:
+                    break
+
+            steps += 1
+
+            if done:
+                break
+
+    except Exception as e:
+        log_step(
+            step=steps,
+            action="error",
+            reward=0.0,
+            done=True,
+            error=str(e)
+        )
+
+    finally:
+        total_reward = sum(rewards)
+
+        # ✅ SUCCESS
+        success = total_reward > 0
+
+        # 🔥 HEALTH METRIC
+        avg_health = sum(health_history) / len(health_history) if health_history else 0
+
+        # 🔥 EFFICIENCY METRIC
+        efficiency = total_reward / (len(rewards) if rewards else 1)
+
+        # ✅ END LOG (STRICT)
+        log_end(success, steps, rewards, avg_health, efficiency)
 
 
-# ✅ Entry point
+# -------------------------------
+# ENTRY POINT
+# -------------------------------
 if __name__ == "__main__":
     run_baseline()

@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: ai-ops-environment
+Version: 0.1.0
+Summary: AI Ops OpenEnv Environment for task prioritization
+Author: Ganesh
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: fastapi
+Requires-Dist: uvicorn[standard]
+Requires-Dist: pydantic
+Dynamic: license-file

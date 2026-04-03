@@ -1,6 +1,13 @@
 """
-Server entry point (conceptual).
-
-In this project, the API logic is integrated within the main application
-for simplicity and efficient deployment.
+Server entry point for OpenEnv deployment.
 """
+
+import uvicorn
+from main import app
+
+def main():
+    """Main function to run the server"""
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    main()

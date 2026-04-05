@@ -4,7 +4,10 @@ from ai_ops_env.environment import OpsEnv
 from ai_ops_env.models import Action
 from ai_ops_env.tasks import get_tasks
 from ai_ops_env.grader import grade_easy
-from ai_ops_env.inference import run_baseline
+from inference import run_baseline
+import subprocess
+import sys
+import os
 
 app = FastAPI()
 env = OpsEnv()
@@ -13,1304 +16,302 @@ env = OpsEnv()
 def home():
     return """
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Ops Intelligence</title>
-
+<title>AI Ops System</title>
 <style>
 body {
+    background: #000;
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f5f7fa;
-    color: #222;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
 }
-
-/* Header Banner */
-.header-banner {
-    background: #1a73e8;
-    color: white;
-    padding: 15px 0;
+.terminal {
+    padding: 20px;
+    color: #00ff88;
+    height: 100vh;
+    box-sizing: border-box;
+}
+.terminal-header {
+    background: #111;
+    color: #00ff88;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #00ff88;
+    padding-bottom: 10px;
     text-align: center;
-    font-weight: 600;
-    font-size: 1.1em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: relative;
 }
-
-.header-links {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    font-size: 0.9em;
-}
-
-.header-links a {
-    color: white;
-    text-decoration: none;
-    margin-right: 15px;
-    opacity: 0.9;
-    transition: opacity 0.3s;
-}
-
-.header-links a:hover {
-    opacity: 1;
-}
-
-/* Digital Clock */
 .digital-clock {
     position: absolute;
+    left: 20px;
     top: 50%;
-    right: 20px;
     transform: translateY(-50%);
-    font-family: 'Courier New', monospace;
-    font-size: 0.9em;
-    background: rgba(255,255,255,0.1);
-    padding: 5px 10px;
-    border-radius: 4px;
-    letter-spacing: 1px;
+    font-size: 14px;
+    font-family: "Courier New", monospace;
+    color: #00ff88;
+    opacity: 0.9;
 }
-
-/* Navigation */
-.nav {
-    background: white;
-    padding: 0;
-    margin: 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.nav-list {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-item {
-    position: relative;
-}
-
-.nav-link {
-    display: block;
-    padding: 15px 20px;
-    color: #333;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-link:hover {
-    background: #f0f0f0;
-    color: #1a73e8;
-}
-
-.nav-link.active {
-    background: #1a73e8;
-    color: white;
-}
-
-/* Page Sections */
-.page-section {
-    display: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.page-section.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Enhanced Animations */
-@keyframes slideInFromTop {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideInFromBottom {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideInFromLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideInFromRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Card entrance animations */
-.card-enter {
-    animation: slideInFromBottom 0.5s ease-out forwards;
-}
-
-.stat-card-enter {
-    animation: slideInFromTop 0.6s ease-out forwards;
-}
-
-.activity-item-enter {
-    animation: slideInFromLeft 0.4s ease-out forwards;
-}
-
-/* Loading animations */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
-}
-
-.loading {
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-/* Smooth hover transitions */
-.card {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-card {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(26, 115, 232, 0.15);
-}
-
-/* Enhanced activity feed */
-.activity-item {
-    opacity: 0;
-    transform: translateX(-20px);
-    animation: slideInFromLeft 0.5s ease-out forwards;
-}
-
-.activity-item:nth-child(even) {
-    animation-delay: 0.1s;
-}
-
-.activity-item:nth-child(odd) {
-    animation-delay: 0.2s;
-}
-
-/* Navigation transitions */
-.nav-link {
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-link::before {
-    content: '';
+.api-btn {
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.nav-link:hover::before {
-    left: 100%;
-}
-
-/* Page specific entrance animations */
-#dashboard.active .stat-card {
-    animation: statCardEnter 0.6s ease-out forwards;
-}
-
-#dashboard.active .stat-card:nth-child(1) { animation-delay: 0.1s; }
-#dashboard.active .stat-card:nth-child(2) { animation-delay: 0.2s; }
-#dashboard.active .stat-card:nth-child(3) { animation-delay: 0.3s; }
-#dashboard.active .stat-card:nth-child(4) { animation-delay: 0.4s; }
-
-#analytics.active .stat-card {
-    animation: scaleIn 0.5s ease-out forwards;
-}
-
-#analytics.active .stat-card:nth-child(1) { animation-delay: 0.1s; }
-#analytics.active .stat-card:nth-child(2) { animation-delay: 0.2s; }
-#analytics.active .stat-card:nth-child(3) { animation-delay: 0.3s; }
-
-#tasks.active .card {
-    animation: slideInFromBottom 0.4s ease-out forwards;
-}
-
-#tasks.active .card:nth-child(1) { animation-delay: 0.1s; }
-#tasks.active .card:nth-child(2) { animation-delay: 0.2s; }
-#tasks.active .card:nth-child(3) { animation-delay: 0.3s; }
-
-#agents.active .card {
-    animation: slideInFromRight 0.5s ease-out forwards;
-}
-
-#agents.active .card:nth-child(1) { animation-delay: 0.1s; }
-#agents.active .card:nth-child(2) { animation-delay: 0.2s; }
-#agents.active .card:nth-child(3) { animation-delay: 0.3s; }
-
-#settings.active .form-group {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.4s ease-out forwards;
-}
-
-#settings.active .form-group:nth-child(1) { animation-delay: 0.1s; }
-#settings.active .form-group:nth-child(2) { animation-delay: 0.2s; }
-#settings.active .form-group:nth-child(3) { animation-delay: 0.3s; }
-#settings.active .form-group:nth-child(4) { animation-delay: 0.4s; }
-#settings.active .form-group:nth-child(5) { animation-delay: 0.5s; }
-
-/* Dashboard Grid */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
-
-/* Stats Cards */
-.stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    text-align: center;
-    border-left: 4px solid #1a73e8;
-    position: relative;
-    overflow: hidden;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #00ff88;
+    border: 1px solid #00ff88;
+    padding: 8px 16px;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
     transition: all 0.3s ease;
 }
-
-.stat-card::before {
-    content: '';
+.api-btn:hover {
+    background: #00ff88;
+    color: #000;
+}
+.status-badge {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1a73e8, #4285f4, #1a73e8);
-    animation: shimmer 3s ease-in-out infinite;
+    right: 160px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00ff88;
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    opacity: 0.9;
 }
-
-.stat-card:nth-child(1) {
-    border-left-color: #1a73e8;
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
-}
-
-.stat-card:nth-child(1)::before {
-    background: linear-gradient(90deg, #1a73e8, #4285f4, #1a73e8);
-}
-
-.stat-card:nth-child(2) {
-    border-left-color: #34a853;
-    background: linear-gradient(135deg, #e6f4ea 0%, #c8e6c9 50%, #a5d6a7 100%);
-}
-
-.stat-card:nth-child(2)::before {
-    background: linear-gradient(90deg, #34a853, #4caf50, #34a853);
-}
-
-.stat-card:nth-child(3) {
-    border-left-color: #fbbc04;
-    background: linear-gradient(135deg, #fef7e0 0%, #fff9c4 50%, #fff59d 100%);
-}
-
-.stat-card:nth-child(3)::before {
-    background: linear-gradient(90deg, #fbbc04, #fdd835, #fbbc04);
-}
-
-.stat-card:nth-child(4) {
-    border-left-color: #ea4335;
-    background: linear-gradient(135deg, #fce8e6 0%, #ffccbc 50%, #ffab91 100%);
-}
-
-.stat-card:nth-child(4)::before {
-    background: linear-gradient(90deg, #ea4335, #ff5252, #ea4335);
-}
-
-.stat-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(26, 115, 232, 0.15);
-}
-
-.stat-card:nth-child(1):hover {
-    box-shadow: 0 12px 30px rgba(26, 115, 232, 0.25);
-}
-
-.stat-card:nth-child(2):hover {
-    box-shadow: 0 12px 30px rgba(52, 168, 83, 0.25);
-}
-
-.stat-card:nth-child(3):hover {
-    box-shadow: 0 12px 30px rgba(251, 188, 4, 0.25);
-}
-
-.stat-card:nth-child(4):hover {
-    box-shadow: 0 12px 30px rgba(234, 67, 53, 0.25);
-}
-
-.stat-card:nth-child(1) .stat-number {
-    color: #1a73e8;
-}
-
-.stat-card:nth-child(2) .stat-number {
-    color: #34a853;
-}
-
-.stat-card:nth-child(3) .stat-number {
-    color: #fbbc04;
-}
-
-.stat-card:nth-child(4) .stat-number {
-    color: #ea4335;
-}
-
-.stat-number {
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #1a73e8;
-    margin: 10px 0;
-}
-
-.stat-label {
-    color: #666;
-    font-size: 1.1em;
-}
-
-/* Activity Feed */
-.activity-feed {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    max-height: 400px;
+.terminal-body {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    font-size: 14px;
+    height: calc(100vh - 100px);
     overflow-y: auto;
-}
-
-.activity-item {
-    padding: 12px 0;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.activity-item:last-child {
-    border-bottom: none;
-}
-
-.activity-time {
-    color: #888;
-    font-size: 0.9em;
-}
-
-/* Settings Form */
-.settings-form {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #333;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1em;
-}
-
-.form-select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1em;
-    background: white;
-}
-
-/* Container */
-.container {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-/* Title */
-h1 {
-    font-size: 3em;
-    color: #1a73e8;
-}
-
-/* Subtitle */
-p {
-    font-size: 1.1em;
-    color: #555;
-}
-
-/* Buttons */
-.btn {
-    display: inline-block;
-    margin: 10px;
-    padding: 12px 22px;
-    background: #1a73e8;
-    color: white;
-    text-decoration: none;
+    padding-right: 10px;
+    border: 2px solid #00ff88;
     border-radius: 8px;
-    font-weight: 600;
-    transition: 0.3s;
+    padding: 15px;
+    margin: 10px;
+    background: #000;
+    box-sizing: border-box;
 }
-
-.btn:hover {
-    background: #0f5bd3;
-    transform: translateY(-2px);
+/* Custom scrollbar */
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
 }
-
-/* Cards Layout */
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 30px;
+.terminal-body::-webkit-scrollbar-track {
+    background: #000;
+    border: 1px solid #00ff88;
 }
-
-/* Card Style */
-.card {
-    background: white;
-    margin: 15px;
-    padding: 20px;
-    border-radius: 12px;
-    width: 260px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: 0.3s;
-    border-left: 4px solid #1a73e8;
-    position: relative;
-    overflow: hidden;
+.terminal-body::-webkit-scrollbar-thumb {
+    background: #00ff88;
+    border-radius: 4px;
 }
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1a73e8, #4285f4, #1a73e8);
-    animation: shimmer 3s ease-in-out infinite;
+.terminal-body::-webkit-scrollbar-thumb:hover {
+    background: #00d4ff;
 }
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+/* Section Colors */
+.summary { color: #00d4ff; }
+.insights { color: #ffd700; }
+.reward { color: #ff9f1c; }
+.system { color: #c77dff; }
+.info { color: #00ff88; }
+.step { color: #00ff88; }
+.start { color: #00d4ff; }
+.end { color: #ffd700; }
+.error { color: #ff4444; }
+/* Blinking cursor */
+.cursor::after {
+    content: "_";
+    animation: blink 1s infinite;
+    color: #00ff88;
 }
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(26, 115, 232, 0.25);
-    border-left-color: #4285f4;
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
-
-.card h3 {
-    color: #1a73e8;
-    margin-bottom: 10px;
-    font-size: 1.2em;
+/* Command style */
+.command {
+    color: #00ff88;
+    margin: 5px 0;
 }
-
-.card .btn {
-    background: linear-gradient(135deg, #1a73e8, #4285f4);
-    border: none;
-    margin-top: 10px;
-}
-
-.card .btn:hover {
-    background: linear-gradient(135deg, #4285f4, #1a73e8);
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
-}
-
-/* Inputs */
-.input {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-/* Progress Bar */
-.progress-container {
-    width: 100%;
-    height: 18px;
-    background: #eee;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #1a73e8;
-    transition: width 0.5s ease;
-}
-
-/* System Status Styles */
-.system-status {
-    margin:20px 0;
-    padding:15px;
-    background:#e6f4ea;
-    border-radius:8px;
-    border-left:4px solid #34a853;
-    font-weight:600;
-}
-
-.api-status {
-    padding:10px;
-    background:#f8f9fa;
-    border-radius:6px;
-    font-weight:500;
-    margin:10px 0;
-}
-
-.decision-flow {
-    margin:30px 0;
-    padding:20px;
-    background:#f8f9fa;
-    border-radius:8px;
-    text-align:center;
-}
-
-.sample-output {
-    background:#f5f5f5;
-    padding:15px;
-    border-radius:8px;
-    font-family:'Courier New', monospace;
-    font-size:12px;
-    margin:15px 0;
-    border-left:3px solid #1a73e8;
-}
-
-.tag {
-    background:#e3f2fd;
-    padding:5px 10px;
-    border-radius:20px;
-    margin:5px;
-    display:inline-block;
-    font-size:12px;
-}
+/* Loading animation - removed for plain text status */
 </style>
 </head>
-
 <body>
-
-<div class="header-banner">
-    <div class="header-links">
-        <a href="#" onclick="showAbout()">📋 About</a>
-        <a href="#" onclick="showContact()">📧 Contact</a>
+<div class="terminal">
+    <div class="terminal-header">
+        <div class="digital-clock" id="digitalClock"></div>
+        AI Ops System - Autonomous Decision Engine (Real-time AI Optimization)
+        <div class="status-badge">[STATUS] SYSTEM ACTIVE *</div>
+        <button onclick="openDocs()" class="api-btn">View API Docs</button>
     </div>
-    🛡️ AI Ops Intelligence - Enterprise Production System
-    <div class="digital-clock" id="digitalClock">00:00:00</div>
+    <div id="output" class="terminal-body cursor">
+        <div class="command">> Initializing system...</div>
+        <div>[STATUS] Processing tasks...</div>
+    </div>
 </div>
-
-<!-- Navigation Menu -->
-<nav class="nav">
-    <ul class="nav-list">
-        <li class="nav-item">
-            <a href="#" class="nav-link active" onclick="showPage('dashboard')"> Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" onclick="showPage('analytics')"> Analytics</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" onclick="showPage('tasks')"> Tasks</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" onclick="showPage('agents')"> Agents</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" onclick="showPage('settings')"> Settings</a>
-        </li>
-        <li class="nav-item">
-            <a href="/docs" class="nav-link" target="_blank"> API Docs</a>
-        </li>
-    </nav>
-
-<div class="container">
-
-    <!-- Dashboard Page -->
-    <div id="dashboard" class="page-section active">
-        <!-- System Health Status -->
-        <div class="system-status">
-             System Status: All services operational
-        </div>
-
-        <!-- API Health Check -->
-        <div class="api-status">
-            <span id="apiStatus">Checking API...</span>
-        </div>
-
-        <h1> Dashboard</h1>
-        <p style="font-weight:600; color:#1a73e8; font-size:1.2em;">
-         Designed for scalable AI agent training & real-world decision intelligence
-        </p>
-        <p>
-        Enterprise-grade AI system for intelligent task prioritization and decision automation
-        </p>
-
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h3> Total Tasks</h3>
-                <div class="stat-number" id="totalTasks">0</div>
-            </div>
-
-            <div class="stat-card">
-                <h3> Success Rate</h3>
-                <div class="stat-number" id="successRate">0%</div>
-                <div class="stat-label">Last 24 hours</div>
-            </div>
-
-            <div class="stat-card">
-                <h3> Active Agents</h3>
-                <div class="stat-number" id="activeAgents">3</div>
-                <div class="stat-label">Currently running</div>
-            </div>
-
-            <div class="stat-card">
-                <h3> Avg Response Time</h3>
-                <div class="stat-number" id="avgResponse">0.5s</div>
-                <div class="stat-label">Per decision</div>
-            </div>
-        </div>
-
-        <!-- Action Flow Visual -->
-        <div class="decision-flow">
-            <h3> Decision Flow</h3>
-            <p style="font-size:1.1em; margin:15px 0;">
-                Task → Agent Decision → Environment → Grader → Score → Optimization
-            </p>
-        </div>
-
-        <!-- Sample Response Preview -->
-        <div style="margin-top:30px;">
-            <h3> Sample Output</h3>
-            <div class="sample-output">
-{
-  "task": "medium",
-  "action": "prioritize",
-  "reward": 0.87,
-  "done": true
-}
-            </div>
-        </div>
-
-        <!-- Built For Tags -->
-        <div style="margin-top:20px;">
-            <span class="tag">AI Systems</span>
-            <span class="tag">Reinforcement Learning</span>
-            <span class="tag">DevOps Automation</span>
-        </div>
-
-        <!-- About System Section -->
-        <div style="margin-top:40px; padding:30px; background:#f8f9fa; border-radius:12px; text-align:left;">
-            <h3 style="color:#1a73e8; margin-bottom:20px;">🔍 About System</h3>
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px;">
-                <div>
-                    <h4 style="color:#34a853; margin-bottom:10px;">🚀 Architecture</h4>
-                    <p style="margin:0; color:#555;">Microservices-based AI system with FastAPI backend and real-time web interface</p>
-                </div>
-                <div>
-                    <h4 style="color:#fbbc04; margin-bottom:10px;">🧠 AI Engine</h4>
-                    <p style="margin:0; color:#555;">Reinforcement Learning agents with intelligent task prioritization algorithms</p>
-                </div>
-                <div>
-                    <h4 style="color:#ea4335; margin-bottom:10px;">⚡ Performance</h4>
-                    <p style="margin:0; color:#555;">Sub-second response times with 99.9% uptime guarantee</p>
-                </div>
-                <div>
-                    <h4 style="color:#1a73e8; margin-bottom:10px;">🛡️ Security</h4>
-                    <p style="margin:0; color:#555;">Enterprise-grade security with encrypted communications</p>
-                </div>
-            </div>
-            <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
-                <h4 style="color:#1a73e8; margin-bottom:15px;">📊 System Capabilities</h4>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px;">
-                    <div style="text-align:center; padding:15px; background:white; border-radius:8px;">
-                        <div style="font-size:2em; color:#1a73e8; margin-bottom:5px;">🎯</div>
-                        <strong>Smart Decision Making</strong>
-                    </div>
-                    <div style="text-align:center; padding:15px; background:white; border-radius:8px;">
-                        <div style="font-size:2em; color:#34a853; margin-bottom:5px;">🔄</div>
-                        <strong>Real-time Processing</strong>
-                    </div>
-                    <div style="text-align:center; padding:15px; background:white; border-radius:8px;">
-                        <div style="font-size:2em; color:#fbbc04; margin-bottom:5px;">📈</div>
-                        <strong>Performance Analytics</strong>
-                    </div>
-                    <div style="text-align:center; padding:15px; background:white; border-radius:8px;">
-                        <div style="font-size:2em; color:#ea4335; margin-bottom:5px;">🤖</div>
-                        <strong>AI Agent Management</strong>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
-                <h4 style="color:#1a73e8; margin-bottom:10px;">⚙️ Technical Specifications</h4>
-                <div style="background:white; padding:15px; border-radius:8px; text-align:left;">
-                    <p style="margin:5px 0;"><strong>Backend:</strong> FastAPI with Python 3.11</p>
-                    <p style="margin:5px 0;"><strong>Frontend:</strong> HTML5, CSS3, JavaScript ES6</p>
-                    <p style="margin:5px 0;"><strong>AI Framework:</strong> Custom RL with OpenAI Gym compatibility</p>
-                    <p style="margin:5px 0;"><strong>Database:</strong> In-memory with Redis caching</p>
-                    <p style="margin:5px 0;"><strong>Deployment:</strong> Docker containerized with Kubernetes support</p>
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top:40px;">
-            <h2> Recent Activity</h2>
-            <div class="activity-feed">
-                <div class="activity-item">
-                    <span> Task "Critical Server Alert" resolved successfully</span>
-                    <span class="activity-time">2 min ago</span>
-                </div>
-                <div class="activity-item">
-                    <span>🤖 Agent Alpha made decision on Task #142</span>
-                    <span class="activity-time">5 min ago</span>
-                </div>
-                <div class="activity-item">
-                    <span>📊 System performance score: 87%</span>
-                    <span class="activity-time">15 min ago</span>
-                </div>
-                <div class="activity-item">
-                    <span>🔄 Environment reset completed</span>
-                    <span class="activity-time">1 hour ago</span>
-                </div>
-                <div class="activity-item">
-                    <span>� New training session started</span>
-                    <span class="activity-time">2 hours ago</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Analytics Page -->
-    <div id="analytics" class="page-section">
-        <h1>� Analytics</h1>
-        <p>Deep insights into AI performance and system metrics</p>
-        
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h3>📈 Performance Trend</h3>
-                <div style="height: 200px; background: linear-gradient(45deg, #1a73e8, #34a853); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                    📊 Chart Area
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <h3>🎯 Decision Accuracy</h3>
-                <div class="stat-number">94.2%</div>
-                <div class="stat-label">+2.3% from last week</div>
-            </div>
-            
-            <div class="stat-card">
-                <h3>⚡ Processing Speed</h3>
-                <div class="stat-number">1,247</div>
-                <div class="stat-label">Tasks/hour</div>
-            </div>
-        </div>
-
-        <div style="margin-top:40px;">
-            <h2>� Detailed Metrics</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>📊 Task Distribution</h3>
-                    <p>Easy: 45% | Medium: 35% | Hard: 20%</p>
-                </div>
-                <div class="card">
-                    <h3>🤖 Agent Performance</h3>
-                    <p>Alpha: 96% | Beta: 92% | Gamma: 89%</p>
-                </div>
-                <div class="card">
-                    <h3>⏰ Peak Hours</h3>
-                    <p>9:00-11:00 and 14:00-16:00</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tasks Page -->
-    <div id="tasks" class="page-section">
-        <h1>� Task Management</h1>
-        <p>Monitor and manage all active tasks in the system</p>
-        
-        <div style="margin: 30px 0;">
-            <button class="btn" onclick="addNewTask()">+ Add New Task</button>
-            <button class="btn" onclick="refreshTasks()">🔄 Refresh</button>
-        </div>
-
-        <div class="cards">
-            <div class="card">
-                <h3>🔴 Critical</h3>
-                <p><strong>Server Outage</strong></p>
-                <p>Priority: HIGH | Agent: Alpha</p>
-                <button class="btn">Assign</button>
-            </div>
-            
-            <div class="card">
-                <h3>🟡 Medium</h3>
-                <p><strong>Database Backup</strong></p>
-                <p>Priority: MEDIUM | Agent: Beta</p>
-                <button class="btn">Assign</button>
-            </div>
-            
-            <div class="card">
-                <h3>� Low</h3>
-                <p><strong>Log Cleanup</strong></p>
-                <p>Priority: LOW | Agent: Gamma</p>
-                <button class="btn">Assign</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Agents Page -->
-    <div id="agents" class="page-section">
-        <h1>🤖 AI Agents</h1>
-        <p>Manage and monitor your intelligent decision-making agents</p>
-        
-        <div class="cards">
-            <div class="card">
-                <h3>🤖 Agent Alpha</h3>
-                <p><strong>Status:</strong> 🟢 Active</p>
-                <p><strong>Performance:</strong> 96% accuracy</p>
-                <p><strong>Tasks Completed:</strong> 1,247</p>
-                <button class="btn">Configure</button>
-            </div>
-            
-            <div class="card">
-                <h3>🤖 Agent Beta</h3>
-                <p><strong>Status:</strong> 🟢 Active</p>
-                <p><strong>Performance:</strong> 92% accuracy</p>
-                <p><strong>Tasks Completed:</strong> 987</p>
-                <button class="btn">Configure</button>
-            </div>
-            
-            <div class="card">
-                <h3>🤖 Agent Gamma</h3>
-                <p><strong>Status:</strong> 🟡 Training</p>
-                <p><strong>Performance:</strong> 89% accuracy</p>
-                <p><strong>Tasks Completed:</strong> 654</p>
-                <button class="btn">Configure</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Page -->
-    <div id="settings" class="page-section">
-        <h1>⚙️ Settings</h1>
-        <p>Configure your AI Operations Intelligence System</p>
-        
-        <div class="settings-form">
-            <div class="form-group">
-                <label class="form-label">System Name</label>
-                <input type="text" class="form-input" value="AI Ops Intelligence">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Default Agent</label>
-                <select class="form-select">
-                    <option>Agent Alpha</option>
-                    <option>Agent Beta</option>
-                    <option>Agent Gamma</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Auto-refresh Interval</label>
-                <select class="form-select">
-                    <option>5 seconds</option>
-                    <option>10 seconds</option>
-                    <option>30 seconds</option>
-                    <option>1 minute</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Notification Level</label>
-                <select class="form-select">
-                    <option>All notifications</option>
-                    <option>Critical only</option>
-                    <option>None</option>
-                </select>
-            </div>
-            
-            <div style="margin-top:30px;">
-                <button class="btn">💾 Save Settings</button>
-                <button class="btn">🔄 Reset to Default</button>
-            </div>
-        </div>
-    </div>
-
-    <footer style="margin-top:60px; opacity:0.7;">
-        Built by Ganesh • OpenEnv Hackathon 🚀 <br>
-        🌐 <a href="/docs" target="_blank" style="color:#00c6ff;">API Docs</a>
-    </footer>
-
-</div>
-
 <script>
-// Digital Clock Function
+function openDocs() {
+    window.open('/docs', '_blank');
+}
 function updateDigitalClock() {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const timeString = `${hours}:${minutes}:${seconds}`;
-    document.getElementById('digitalClock').textContent = timeString;
-}
-
-// Page Navigation Function
-function showPage(pageId) {
-    // Hide all pages first
-    const allPages = document.querySelectorAll('.page-section');
-    allPages.forEach(page => {
-        page.classList.remove('active');
-        page.style.display = 'none';
-    });
     
-    // Show the selected page
-    const newPage = document.getElementById(pageId);
-    if (newPage) {
-        newPage.style.display = 'block';
-        newPage.classList.add('active');
-        
-        // Simple fade in effect
-        newPage.style.opacity = '0';
-        setTimeout(() => {
-            newPage.style.opacity = '1';
-        }, 50);
-    }
-    // Update navigation
-    updateNavigation(pageId);
-}
-
-// Update navigation active state
-function updateNavigation(pageId) {
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => link.classList.remove('active'));
+    // Terminal-style timestamp: YYYY-MM-DD HH:MM:SS
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
     
-    // Find and activate correct nav link
-    navLinks.forEach(link => {
-        if (link.onclick && link.onclick.toString().includes(pageId)) {
-            link.classList.add('active');
-        }
-    });
-}
-
-// Enhanced dashboard updates with animations
-function updateDashboardStats() {
-    const stats = {
-        totalTasks: Math.floor(Math.random() * 50) + 10,
-        successRate: (Math.random() * 20 + 80).toFixed(1),
-        activeAgents: Math.floor(Math.random() * 2) + 2,
-        avgResponse: (Math.random() * 0.8 + 0.2).toFixed(1)
-    };
+    const timestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     
-    // Animate stat changes
-    animateValue('totalTasks', stats.totalTasks);
-    animateValue('successRate', stats.successRate + '%');
-    animateValue('activeAgents', stats.activeAgents);
-    animateValue('avgResponse', stats.avgResponse + 's');
+    document.getElementById('digitalClock').innerHTML = `[SYSTEM TIME] ${timestamp}`;
 }
-
-// Animate value changes
-function animateValue(elementId, newValue) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    element.style.transform = 'scale(1.1)';
-    element.style.transition = 'all 0.3s ease';
-    
-    setTimeout(() => {
-        element.textContent = newValue;
-        element.style.transform = 'scale(1)';
-    }, 150);
-}
-
-// Enhanced task management with animations
-function addNewTask() {
-    // Create notification with animation
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #1a73e8;
-        color: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 1000;
-        animation: slideInFromRight 0.5s ease-out;
-    `;
-    notification.textContent = '✨ Task creation dialog would open here';
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideInFromRight 0.5s ease-out reverse';
-        setTimeout(() => notification.remove(), 500);
-    }, 2000);
-}
-
-function refreshTasks() {
-    const tasks = document.querySelectorAll('#tasks .card');
-    tasks.forEach((task, index) => {
-        task.style.animation = 'none';
-        task.style.transform = 'scale(0.95)';
-        task.style.opacity = '0.5';
-        
-        setTimeout(() => {
-            task.style.transform = 'scale(1)';
-            task.style.opacity = '1';
-        }, index * 100);
-    });
-}
-
-// Settings Functions
-function saveSettings() {
-    alert('Settings saved successfully!');
-}
-
-// About Modal Function
-function showAbout() {
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    `;
-    
-    modal.innerHTML = `
-        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; text-align: left;">
-            <h2 style="color: #1a73e8; margin-top: 0;">📋 About AI Ops Intelligence</h2>
-            <p><strong>Version:</strong> Enterprise v2.0</p>
-            <p><strong>Purpose:</strong> Advanced AI-powered operations intelligence system for real-time decision making and task automation.</p>
-            <p><strong>Technologies:</strong> FastAPI, Reinforcement Learning, Real-time Analytics</p>
-            <p><strong>Created for:</strong> OpenEnv Hackathon 2026</p>
-            <p style="margin-bottom: 0;"><strong>Developer:</strong> Ganesh</p>
-            <button class="btn" style="margin-top: 20px;" onclick="this.closest('div').parentElement.remove()">Close</button>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.remove();
-    });
-}
-
-// Contact Modal Function
-function showContact() {
-    const modal = document.createElement('div');
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    `;
-    
-    modal.innerHTML = `
-        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 400px; text-align: left;">
-            <h2 style="color: #1a73e8; margin-top: 0;">📧 Contact Us</h2>
-            <p><strong>Developer:</strong> Ganesh</p>
-            <p><strong>Email:</strong> ganesh@example.com</p>
-            <p><strong>GitHub:</strong> github.com/ganesh</p>
-            <p><strong>LinkedIn:</strong> linkedin.com/in/ganesh</p>
-            <p style="margin: 20px 0; color: #666;">For enterprise inquiries, partnerships, or technical support, reach out through any of the channels above.</p>
-            <button class="btn" onclick="this.closest('div').parentElement.remove()">Close</button>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.remove();
-    });
-}
-
 // Update clock immediately and then every second
 updateDigitalClock();
 setInterval(updateDigitalClock, 1000);
-
-// Update dashboard stats every 3 seconds
-setInterval(updateDashboardStats, 3000);
-updateDashboardStats();
-
-// API Health Check Function
-async function checkAPI() {
-    try {
-        const res = await fetch('/tasks');
-        if (res.ok) {
-            document.getElementById("apiStatus").innerText = "🟢 API Healthy";
-        } else {
-            document.getElementById("apiStatus").innerText = "🟠 API Issue";
+function typeOutput(text) {
+    const output = document.getElementById("output");
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            output.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 5);
         }
-    } catch {
-        document.getElementById("apiStatus").innerText = "🔴 API Down";
+    }
+    typing();
+}
+function formatLogLine(line) {
+    if (line.includes('[INFO]')) {
+        return `<span class="info">${line}</span>`;
+    } else if (line.includes('[START]')) {
+        return `<span class="start">${line}</span>`;
+    } else if (line.includes('[STEP]')) {
+        return `<span class="step">${line}</span>`;
+    } else if (line.includes('[END]')) {
+        return `<span class="end">${line}</span>`;
+    } else if (line.includes('[ERROR]')) {
+        return `<span class="error">${line}</span>`;
+    } else if (line.includes('Total Reward:')) {
+        // Highlight final score with fire emoji and performance rating
+        const rewardMatch = line.match(/Total Reward: ([\d.]+) \/ ([\d.]+)/);
+        if (rewardMatch) {
+            const score = parseFloat(rewardMatch[1]);
+            const maxScore = parseFloat(rewardMatch[2]);
+            const percentage = (score / maxScore) * 100;
+            
+            let performance = '';
+            if (percentage >= 80) performance = 'EXCELLENT PERFORMANCE';
+            else if (percentage >= 60) performance = 'GOOD PERFORMANCE';
+            else if (percentage >= 40) performance = 'MODERATE PERFORMANCE';
+            else performance = 'NEEDS IMPROVEMENT';
+            
+            return `<span class="reward">🔥 FINAL SCORE: ${score} / ${maxScore} (${performance})</span>`;
+        }
+        return `<span class="reward">${line}</span>`;
+    } else if (line.includes('[STATUS]')) {
+        return `<span class="summary">${line}</span>`;
+    } else if (line.includes('[API]')) {
+        return `<span class="info">${line}</span>`;
+    } else if (line.includes('[AI SUMMARY]')) {
+        return `<span class="insights">${line}</span>`;
+    } else if (line.includes('[COMPLETE]')) {
+        return `<span class="summary">${line}</span>`;
+    } else if (line.includes('=== EXECUTION SUMMARY ===')) {
+        return `<br><span class="summary">${line}</span>`;
+    } else if (line.includes('=== DECISION INSIGHTS ===')) {
+        return `<br><span class="insights">${line}</span>`;
+    } else if (line.includes('=== REWARD BREAKDOWN ===')) {
+        return `<br><span class="reward">${line}</span>`;
+    } else if (line.includes('=== SYSTEM INFO ===')) {
+        return `<br><span class="system">${line}</span>`;
+    } else if (line.includes('Reward') || line.includes('reward')) {
+        return `<span class="reward">${line}</span>`;
+    } else if (line.includes('# SYSTEM:')) {
+        return `<span class="system">${line}</span>`;
+    } else if (line.includes('# AI_REASON:')) {
+        return `<span class="system">${line}</span>`;
+    } else if (line.includes('Status') || line.includes('Total') || line.includes('Average') || line.includes('Execution')) {
+        return `<span class="info">${line}</span>`;
+    } else if (line.includes('High Priority') || line.includes('Medium Priority') || line.includes('Low Priority') || line.includes('System Efficiency')) {
+        return `<span class="insights">${line}</span>`;
+    } else if (line.startsWith('Step')) {
+        return `<span class="reward">${line}</span>`;
+    } else if (line.startsWith('Model') || line.startsWith('Mode') || line.startsWith('Execution Type')) {
+        return `<span class="system">${line}</span>`;
+    } else if (line.startsWith('>')) {
+        return `<div class="command">${line}</div>`;
+    } else if (line.trim() === '') {
+        return '<br>';
+    }
+    return line;
+}
+async function runInference() {
+    const output = document.getElementById("output");
+    output.innerHTML = '<div class="command">> Initializing AI Ops System...</div><div>[STATUS] Processing tasks...</div>';
+    
+    try {
+        const response = await fetch('/inference-raw');
+        const data = await response.json();
+        
+        let logOutput = '<div class="command">> AI Ops Optimization Pipeline Started</div>';
+        
+        // Process logs if they exist
+        if (data.logs && Array.isArray(data.logs)) {
+            data.logs.forEach(log => {
+                if (log && log.trim()) {
+                    logOutput += formatLogLine(log) + '\\n';
+                } else if (log === '') {
+                    logOutput += '<br>';
+                }
+            });
+        }
+        
+        // Add API info line first
+        logOutput += '<div>[API] /step | /state | /reset available</div>';
+        
+        // Add completion status
+        logOutput += '<div>[STATUS] Optimization complete</div>';
+        
+        // Add AI summary
+        logOutput += '<div>[AI SUMMARY] System prioritized high-impact tasks for maximum efficiency</div>';
+                
+        output.innerHTML = logOutput;
+        
+        // Auto-scroll to bottom to show all content
+        output.scrollTop = output.scrollHeight;
+        
+    } catch (error) {
+        output.innerHTML = `<div class="command">> Error: ${error.message}</div><span class="error">[ERROR] Failed to connect to AI Ops engine</span>`;
     }
 }
-
-// Check API immediately and then every 10 seconds
-checkAPI();
-setInterval(checkAPI, 10000);
-
-async function runStep() {
-    const task = document.getElementById("taskSelect").value;
-
-    document.getElementById("result").innerText = "Processing...";
-
-    try {
-        const res = await fetch('/step', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: task })
-        });
-
-        const data = await res.json();
-
-        document.getElementById("result").innerText =
-            "Reward: " + data.reward + " | Done: " + data.done;
-
-    } catch (e) {
-        document.getElementById("result").innerText = "Error executing step";
-    }
-}
-
-async function loadMetrics() {
-    try {
-        const res = await fetch('/baseline');
-        const data = await res.json();
-
-        let score = (data.average_score || 0) * 100;
-
-        document.getElementById("avgScore").innerText = data.average_score || "0";
-        document.getElementById("steps").innerText = data.steps || "N/A";
-        document.getElementById("progressBar").style.width = score + "%";
-        document.getElementById("scoreText").innerText = Math.round(score) + "%";
-
-    } catch (e) {
-        document.getElementById("avgScore").innerText = "Error";
-    }
-
-    try {
-        const taskRes = await fetch('/tasks');
-        const tasks = await taskRes.json();
-        document.getElementById("taskCount").innerText = tasks.length;
-    } catch (e) {
-        document.getElementById("taskCount").innerText = "Error";
-    }
-}
-
-// 🔄 Auto refresh every 5 sec
-setInterval(loadMetrics, 5000);
-
-// Initial load
-loadMetrics();
+// Auto-start when page loads
+window.onload = function() {
+    setTimeout(runInference, 1500);
+};
 </script>
-
 </body>
 </html>
 """
 
-@app.post("/reset")
+@app.api_route("/reset", methods=["GET", "POST"])
 def reset():
     state = env.reset()
     return {"state": state}
 
-@app.post("/step")
-def step(action: Action):
+@app.api_route("/step", methods=["GET", "POST"])
+def step(action: Action = None):
+    # For GET requests, provide a default action or return error
+    if action is None:
+        return {"error": "Action parameter required for step endpoint"}
+    
     obs, reward, done, info = env.step(action)
     return {
         "observation": obs,
@@ -1327,8 +328,12 @@ def state():
 def tasks():
     return get_tasks()
 
-@app.post("/grader")
-def grader_endpoint(action: Action):
+@app.api_route("/grader", methods=["GET", "POST"])
+def grader_endpoint(action: Action = None):
+    # For GET requests, provide a default action or return error
+    if action is None:
+        return {"error": "Action parameter required for grader endpoint"}
+
     task = next((t for t in env.state.tasks if t.id == action.task_id), None)
 
     if not task:
@@ -1340,3 +345,79 @@ def grader_endpoint(action: Action):
 @app.get("/baseline")
 def baseline():
     return run_baseline()
+
+@app.get("/inference-raw")
+def inference_raw():
+    try:
+        # Add current directory to Python path and run inference.py
+        env = os.environ.copy()
+        env['PYTHONPATH'] = os.getcwd()
+        
+        # Run inference.py and capture its console output
+        result = subprocess.run(
+            [sys.executable, "-c", "from inference import run_baseline; run_baseline()"],
+            capture_output=True,
+            text=True,
+            cwd=os.getcwd(),
+            env=env
+        )
+        
+        # Check if the output is already JSON (from ai_ops_env/inference.py)
+        stdout_content = result.stdout.strip()
+        if stdout_content.startswith('{"logs":'):
+            # Parse the JSON directly from stdout
+            try:
+                import json
+                return json.loads(stdout_content)
+            except json.JSONDecodeError:
+                # If parsing fails, fall back to processing as logs
+                pass
+        
+        # Process the output to extract logs (fallback for other inference functions)
+        output_lines = stdout_content.split('\n')
+        logs = []
+        total_reward = 0.0
+        
+        for line in output_lines:
+            if line.strip():
+                logs.append(line.strip())
+                # Extract reward from STEP lines
+                if '[STEP]' in line and 'reward=' in line:
+                    try:
+                        reward_part = line.split('reward=')[1].split()[0]
+                        total_reward += float(reward_part)
+                    except:
+                        pass
+        
+        # Calculate average score from logs
+        reward_count = len([log for log in logs if '[STEP]' in log and 'reward=' in log])
+        average_score = round(total_reward / reward_count, 2) if reward_count > 0 else 0.0
+        
+        return {
+            "logs": logs,
+            "result": {
+                "total_reward": round(total_reward, 2),
+                "average_score": average_score,
+                "status": "SUCCESS"
+            },
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "returncode": result.returncode
+        }
+            
+    except Exception as e:
+        return {
+            "logs": [f"[ERROR] {str(e)}"],
+            "result": {
+                "total_reward": 0.0,
+                "status": "ERROR"
+            },
+            "stdout": "",
+            "stderr": str(e),
+            "returncode": -1,
+            "error": str(e)
+        }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8002) 

@@ -174,7 +174,27 @@ This system combines Reinforcement Learning and LLM reasoning to enable:
 - Explainable AI with transparent logs  
 
 The system continuously optimizes decisions based on feedback loops.
+---
+# 🔍 Action & Observation Space :
 
+## 🧠 Observation :
+The observation represents the current system state including:
+- Task description
+- Priority level
+- System status
+- Previous decisions
+
+## ⚙️ Action :
+The agent can perform actions such as:
+- Prioritize task
+- Assign resource
+- Optimize execution step
+
+## 🎯 Reward :
+The reward is calculated based on:
+- Task priority handling
+- Decision correctness
+- Efficiency of execution
 ---
 # 📸 Screenshots :
 

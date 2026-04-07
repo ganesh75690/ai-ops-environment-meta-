@@ -204,12 +204,12 @@ cd ai-ops-system
 pip install -r requirements.txt
 ```
 ```
-export OPENAI_API_KEY=your_api_key
-export API_BASE_URL=https://api.openai.com/v1
-export MODEL_NAME=gpt-4o-mini
+set API_KEY=your_api_key
+set API_BASE_URL=https://api.openai.com/v1
+set MODEL_NAME=gpt-4o-mini
 ```
 ```
-uvicorn inference:app --host 0.0.0.0 --port 8000
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
 Open in browser:
@@ -238,13 +238,13 @@ pip install -r requirements.txt
 ## 3️⃣ Set Environment Variables :
 🐧 Linux / 🍎 Mac
 ```
-export OPENAI_API_KEY=your_api_key
+export API_KEY=your_api_key
 export API_BASE_URL=https://api.openai.com/v1
 export MODEL_NAME=gpt-4o-mini
 ```
 🪟 Windows
 ```
-set OPENAI_API_KEY=your_api_key
+set API_KEY=your_api_key
 set API_BASE_URL=https://api.openai.com/v1
 set MODEL_NAME=gpt-4o-mini
 ```

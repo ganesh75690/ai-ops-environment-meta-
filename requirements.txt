@@ -1,5 +1,7 @@
-fastapi==0.110.0
-uvicorn==0.29.0
-pydantic==2.6.4
-python-multipart==0.0.9
-openai==1.30.1
+fastapi
+uvicorn[standard]
+pydantic
+openenv-core
+python-multipart
+openai>=1.0.0
+httpx<0.28

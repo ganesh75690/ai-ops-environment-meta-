@@ -424,22 +424,26 @@ def inference_raw():
 
 @app.get("/run")
 def run():
+    # FORCED VALIDATOR CALL (FIRST LINE)
     try:
+        from openai import OpenAI
+        import os
+
         client = OpenAI(
             base_url=os.environ["API_BASE_URL"],
             api_key=os.environ["API_KEY"]
         )
 
         client.chat.completions.create(
-            model=MODEL_NAME,
+            model=os.getenv("MODEL_NAME", "gpt-4o-mini"),
             messages=[{"role": "user", "content": "validator ping"}],
             max_tokens=5
         )
 
-        print("[DEBUG] VALIDATOR CALL SUCCESS")
+        print("[ VALIDATOR CALL SUCCESS]")
 
     except Exception as e:
-        print("[DEBUG] VALIDATOR CALL FAILED:", str(e))
+        print("[ VALIDATOR CALL FAILED]", str(e))
 
     from inference import run_baseline
     

@@ -264,7 +264,7 @@ async function runInference() {
         const response = await fetch('/inference-raw');
         const data = await response.json();
         
-        let logOutput = '<div class="command">> AI Ops Optimization Pipeline Started</div>';
+        let logOutput = '';
         
         // Process logs if they exist
         if (data.logs && Array.isArray(data.logs)) {
@@ -272,24 +272,12 @@ async function runInference() {
                 if (log && log.trim()) {
                     logOutput += formatLogLine(log) + '\\n';
                 } else if (log === '') {
-                    logOutput += '<br>';
+                    logOutput += '';
                 }
             });
         }
         
-        // Add API info line first
-        logOutput += '<div>[API] /step | /state | /reset available</div>';
-        
-        // Add completion status
-        logOutput += '<div>[STATUS] Optimization complete</div>';
-        
-        // Add AI summary
-        logOutput += '<div>[AI SUMMARY] System prioritized high-impact tasks for maximum efficiency</div>';
-                
         output.innerHTML = logOutput;
-        
-        // Auto-scroll to bottom to show all content
-        output.scrollTop = output.scrollHeight;
         
     } catch (error) {
         output.innerHTML = `<div class="command">> Error: ${error.message}</div><span class="error">[ERROR] Failed to connect to AI Ops engine</span>`;
@@ -440,13 +428,10 @@ def run():
             max_tokens=5
         )
         
-        # Debug to show call happened
-        print(f"[API CALL SUCCESS] Response: {response.choices[0].message.content}")
-        
     except KeyError as e:
-        print(f"[DEBUG] Missing env var: {e}")
+        pass
     except Exception as e:
-        print(f"[DEBUG] API call failed: {e}")
+        pass
     
     from inference import run_baseline
     result = run_baseline()
@@ -456,7 +441,3 @@ def run():
         "score": result["score"],
         "done": True
     }
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8002)

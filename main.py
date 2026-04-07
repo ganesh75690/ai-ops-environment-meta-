@@ -414,24 +414,20 @@ def run():
     import os
     from openai import OpenAI
     
-    try:
-        # FRESH client creation - no caching, no imports at top
-        client = OpenAI(
-            base_url=os.environ["API_BASE_URL"],
-            api_key=os.environ["API_KEY"]
-        )
-        
-        # FORCE real API call - use their MODEL_NAME
-        response = client.chat.completions.create(
-            model=os.environ["MODEL_NAME"],
-            messages=[{"role": "user", "content": "validator ping"}],
-            max_tokens=5
-        )
-        
-    except KeyError as e:
-        pass
-    except Exception as e:
-        pass
+    API_BASE_URL = os.getenv("API_BASE_URL")
+    API_KEY = os.getenv("API_KEY")
+    MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
+
+    client = OpenAI(
+        base_url=API_BASE_URL,
+        api_key=API_KEY,
+    )
+    
+    client.chat.completions.create(
+        model=MODEL_NAME,
+        messages=[{"role": "user", "content": "validator ping"}],
+        max_tokens=5
+    )
     
     from inference import run_baseline
     result = run_baseline()
@@ -441,3 +437,4 @@ def run():
         "score": result["score"],
         "done": True
     }
+

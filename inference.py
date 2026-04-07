@@ -565,6 +565,9 @@ def run_baseline():
             "execution_time": execution_time
         }
         print(json.dumps(json_result))
+        
+        # Return the result for API access
+        return json_result
 
 
 # -------------------------------

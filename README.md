@@ -58,38 +58,7 @@ Input Tasks → Environment Initialization → Decision Engine → Reward Calcul
 
 The system evaluates each decision using a weighted scoring model:
 
-> **Final Reward = (0.4 × Priority Score) + (0.4 × Action Score) + (0.2 × Efficiency Score)**
----
-# 🔹 Components :
-
-| Component        | Description                |
-|------------------|----------------------------|
-| Priority Score   | Importance of task         |
-| Action Score     | Decision correctness       |
-| Efficiency Score | Resource optimization      |
----
-# 📊 Sample Output :
-
-**Example Response:**
-
-```json
-{
-  "total_reward": 3.85,
-  "steps": 5,
-  "average_score": 0.77,
-  "execution_time": 0.08
-}
-```
----
-# 📈 Performance Metrics :
-
-| Metric              | Value        |
-|--------------------|--------------|
-| 🔥 Final Score     | 3.85 / 5.0   |
-| ⚡ Efficiency      | 77%          |
-| 🧠 Decision Quality| GOOD         |
-| 🎯 Confidence Score| 70%          |
-| ⚖️ Risk Level     | LOW          |
+> **Final Reward: round((w_priority * priority_score) + (w_action * action_score) + (w_efficiency * efficiency_score), 2)**
 ---
 # 🧠 AI Intelligence Layer :
 
@@ -204,9 +173,9 @@ cd ai-ops-system
 pip install -r requirements.txt
 ```
 ```
-set API_KEY=your_api_key
-set API_BASE_URL=https://api.openai.com/v1
-set MODEL_NAME=gpt-4o-mini
+set API_KEY= os.getenv("API_KEY")
+set API_BASE_URL= os.getenv("API_BASE_URL")
+set MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
 ```
 ```
 uvicorn main:app --host 0.0.0.0 --port 8000
@@ -238,15 +207,15 @@ pip install -r requirements.txt
 ## 3️⃣ Set Environment Variables :
 🐧 Linux / 🍎 Mac
 ```
-export API_KEY=your_api_key
-export API_BASE_URL=https://api.openai.com/v1
-export MODEL_NAME=gpt-4o-mini
+export API_KEY= os.getenv("API_KEY")
+export API_BASE_URL= os.getenv("API_BASE_URL")
+export MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
 ```
 🪟 Windows
 ```
-set API_KEY=your_api_key
-set API_BASE_URL=https://api.openai.com/v1
-set MODEL_NAME=gpt-4o-mini
+set API_KEY= os.getenv("API_KEY")
+set API_BASE_URL= os.getenv("API_BASE_URL")
+set MODEL_NAME=Qwen/Qwen2.5-72B-Instruct
 ```
 ## 4️⃣ Run the Application
 ```
@@ -325,12 +294,6 @@ The reward is calculated based on:
 ## 🧠 Decision Intelligence Breakdown
 
 The AI Ops system evaluates each decision using a hybrid scoring mechanism combining priority, action effectiveness, and system efficiency.
-
-## 🔹 Scoring Components :
-
-- **Priority Score (p):** Importance of the task  
-- **Action Score (a):** Quality of the selected decision  
-- **Efficiency Score (e):** System performance impact  
 
 
 ```

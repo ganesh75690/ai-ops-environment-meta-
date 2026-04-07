@@ -298,16 +298,8 @@ The reward is calculated based on:
 ---
 # 📸 Screenshots :
 
-### 🔥 System Interface
-<img width="1871" height="788" alt="image" src="https://github.com/user-attachments/assets/490b64ed-702c-42a9-931b-c79d20278b0d" />
-
-
 ### ⚙️ API Endpoints
 <img width="1838" height="867" alt="image" src="https://github.com/user-attachments/assets/b6b3979f-b1e0-4ad7-823f-9ccee6effc4c" />
-
-
-### 📊 Output & Performance
-<img width="1323" height="497" alt="image" src="https://github.com/user-attachments/assets/5664d2f5-ff80-4d20-a86d-eede291a4c0a" />
 ---
 
 # 🎯 Why This Project makes strong imapact :

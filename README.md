@@ -47,6 +47,8 @@ The system evaluates each decision using a weighted scoring model:
 Final Reward: round((w_priority * priority_score) + (w_action * action_score) + (w_efficiency * efficiency_score), 2)
 ```
 ---
+## 🔗 Endpoints of the system :
+
 | Endpoint | Description                |
 |----------|----------------------------|
 | `/run`      | AI pipeline               |

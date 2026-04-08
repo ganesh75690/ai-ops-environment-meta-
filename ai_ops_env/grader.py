@@ -1,9 +1,9 @@
 def grade_easy(action, task):
     if task.priority == "high" and action.action_type == "assign":
-        return 1.0
+        return 0.99  # Force below 1.0
     elif action.action_type == "assign":
         return 0.5
-    return 0.0
+    return 0.01  # Force above 0.0
 
 
 def grade_medium(action, task):

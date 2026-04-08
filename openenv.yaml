@@ -9,3 +9,28 @@ endpoints:
   tasks: /tasks
   grader: /grader
   baseline: /baseline
+
+tasks:
+  load_balancing_optimization:
+    description: Optimize load balancing across distributed systems
+    grader: grade_medium
+    
+  anomaly_detection_monitoring:
+    description: Detect and respond to system anomalies
+    grader: grade_medium
+    
+  resource_allocation_planning:
+    description: Plan optimal resource allocation strategies
+    grader: grade_medium
+    
+  incident_response_automation:
+    description: Automate incident response procedures
+    grader: grade_easy
+    
+  performance_tuning_engine:
+    description: Tune system performance parameters
+    grader: grade_hard
+    
+  cost_efficiency_optimization:
+    description: Optimize costs while maintaining performance
+    grader: grade_hard

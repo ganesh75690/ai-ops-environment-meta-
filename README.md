@@ -8,7 +8,7 @@ Autonomous Decision-Making Environment for Task Prioritization.
 
 ---
 
-# 🌐 Live Demo :
+## 🌐 Live Demo :
 
 🔗 Hugging Face Space:
 👉 https://ganesh756-ai-ops-system.hf.space/
@@ -17,7 +17,7 @@ Autonomous Decision-Making Environment for Task Prioritization.
 👉 https://ganesh756-ai-ops-system.hf.space/docs
 
 ---
-# 🌟 Overview :
+## 🌟 Overview :
 
  AI Ops System is a next-generation autonomous decision engine that simulates real-world operational intelligence.
 It dynamically analyzes incoming tasks, prioritizes them using a Hybrid Reinforcement Learning + LLM model, and continuously optimizes decisions for maximum efficiency.
@@ -25,7 +25,7 @@ It dynamically analyzes incoming tasks, prioritizes them using a Hybrid Reinforc
 
 ---
 
-# ⚙️ Key Features :
+## ⚙️ Key Features :
 
 - ⚡ Real-time task processing & optimization  
 
@@ -40,18 +40,18 @@ It dynamically analyzes incoming tasks, prioritizes them using a Hybrid Reinforc
 - 🔗 REST API endpoints for integration   
 ---
 
-# 🧪 System Workflow :
+## 🧪 System Workflow :
 
 Input Tasks → Environment Initialization → Decision Engine → Reward Calculation → Action Selection → Performance Evaluation → Final Output
 
 ---
-# 🧮 Reward System (Core Logic) :
+## 🧮 Reward System (Core Logic) :
 
 The system evaluates each decision using a weighted scoring model:
 
 > **Final Reward: round((w_priority * priority_score) + (w_action * action_score) + (w_efficiency * efficiency_score), 2)**
 ---
-# 🧠 AI Intelligence Layer :
+## 3 🧠 AI Intelligence Layer :
 
 > **[AI SUMMARY]** System prioritized high-impact tasks for maximum efficiency  
 > **[INTELLIGENCE]** Learned optimal prioritization patterns dynamically  
@@ -65,7 +65,7 @@ The system evaluates each decision using a weighted scoring model:
 | `/state` | View current tasks         |
 | `/reset` | Reset environment          |
 ---
-# 🛠️ Tech Stack :
+## 🛠️ Tech Stack :
 
 | Category                | Technology                          |
 |------------------------|--------------------------------------|
@@ -75,7 +75,7 @@ The system evaluates each decision using a weighted scoring model:
 | Deployment            | Hugging Face Spaces (Docker)         |
 | UI                    | Terminal-style Web Interface         |
 
-# 📁 Project Structure
+## 📁 Project Structure
 
 ```bash
 ai-ops-system/
@@ -130,13 +130,13 @@ ai-ops-system/
 - configs/ → Environment and runtime configurations
 - Dockerfile → Enables containerized deployment on Hugging Face
 ---
-# Output format :
+## Output format :
 ```
 [START] task=<task_name> env=<environment> model=<model>
 [STEP] step=<n> action=<action> reward=<value> done=<true|false> error=<msg|null>
 [END] success=<true|false> steps=<n> score=<value> rewards=<r1,r2,...>
 ```
-# 🤖 LLM Integration :
+3# 🤖 LLM Integration :
 The system uses the OpenAI-compatible client:
 ```
 Python
@@ -151,7 +151,7 @@ Fully environment-driven
 
 ---
 
-# 🔮 Future Enhancements for this system :
+3# 🔮 Future Enhancements for this system :
 
 | Enhancements |
 |--------------|
@@ -161,7 +161,7 @@ Fully environment-driven
 | 🤝 Integration with real enterprise tools |
 | 🔄 Continuous learning from live data |
 ---
-# 🧩 System Architecture :
+## 🧩 System Architecture :
 ```
 User Request / Validator
         ↓
@@ -176,7 +176,7 @@ User Request / Validator
  Structured Output ([START][STEP][END])
 ```
 ---
-# 🧠 AI Intelligence Architecture (RL + LLM Hybrid System) :
+#3 🧠 AI Intelligence Architecture (RL + LLM Hybrid System) :
 
 “Hybrid AI intelligence combining reinforcement learning and LLM reasoning to enable autonomous, adaptive, and explainable decision-making in real-time.”
 
@@ -184,7 +184,7 @@ User Request / Validator
 
 
 ---
-# ⚙️ How to Run :
+## ⚙️ How to Run :
 ```
 git clone https://github.com/YOUR_USERNAME/ai-ops-system.git
 cd ai-ops-system
@@ -206,7 +206,7 @@ Open in browser:
 http://127.0.0.1:8000 (for local only)
 ```
 
-# ⚙️ Setup Instructions :
+## 3 ⚙️ Setup Instructions :
 
 Follow these steps to run the project locally.
 
@@ -245,10 +245,10 @@ Build and run using Docker:
 docker build -t ai-ops-system .
 docker run -p 8000:8000 ai-ops-system
 ```
-# 🧠 Description :
+## 🧠 Description :
 Autonomous AI Ops system that uses Reinforcement Learning + LLM to optimize task prioritization and decision-making in real time.
 ---
-#  AI Intelligence :
+##  AI Intelligence :
 
 This system combines Reinforcement Learning and LLM reasoning to enable:
 
@@ -280,7 +280,7 @@ The reward is calculated based on:
 - Decision correctness
 - Efficiency of execution
 ---
-# 📸 Screenshots :
+## 📸 Screenshots :
 
 <img width="1918" height="766" alt="image" src="https://github.com/user-attachments/assets/6c9464e9-07f1-4ba0-854e-4bfaccdaed7e" />
 
@@ -291,12 +291,12 @@ The reward is calculated based on:
 The AI Ops system evaluates each decision using a hybrid scoring mechanism combining priority, action effectiveness, and system efficiency.
 
 ---
-# 👨‍💻 Author :
+## 👨‍💻 Author :
 B. SAI GANESH
                     
     AI Developer | System Builder | Innovator
 ---
-# 🏁 Conclusion :
+## 🏁 Conclusion :
 
 This project demonstrates the evolution of AI from static models to autonomous decision systems. By combining Reinforcement Learning with LLM-based reasoning, it showcases how intelligent systems can adapt, optimize, and explain their decisions in real time.
 

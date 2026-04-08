@@ -136,7 +136,7 @@ ai-ops-system/
 [STEP] step=<n> action=<action> reward=<value> done=<true|false> error=<msg|null>
 [END] success=<true|false> steps=<n> score=<value> rewards=<r1,r2,...>
 ```
-3# 🤖 LLM Integration :
+## 🤖 LLM Integration :
 The system uses the OpenAI-compatible client:
 ```
 Python
@@ -151,7 +151,7 @@ Fully environment-driven
 
 ---
 
-3# 🔮 Future Enhancements for this system :
+## 🔮 Future Enhancements for this system :
 
 | Enhancements |
 |--------------|
@@ -176,7 +176,7 @@ User Request / Validator
  Structured Output ([START][STEP][END])
 ```
 ---
-#3 🧠 AI Intelligence Architecture (RL + LLM Hybrid System) :
+## 🧠 AI Intelligence Architecture (RL + LLM Hybrid System) :
 
 “Hybrid AI intelligence combining reinforcement learning and LLM reasoning to enable autonomous, adaptive, and explainable decision-making in real-time.”
 
@@ -259,7 +259,7 @@ This system combines Reinforcement Learning and LLM reasoning to enable:
 
 The system continuously optimizes decisions based on feedback loops.
 ---
-# 🔍 Action & Observation Space :
+## 🔍 Action & Observation Space :
 
 ## 🧠 Observation :
 The observation represents the current system state including:

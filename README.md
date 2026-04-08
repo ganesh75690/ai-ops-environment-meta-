@@ -15,14 +15,12 @@ Autonomous Decision-Making Environment for Task Prioritization.
 
 📘 Interactive API Docs (Swagger UI):
 👉 https://ganesh756-ai-ops-system.hf.space/docs
-
 ---
-
 # 🌟 Overview :
 
-AI Ops System is a next-generation autonomous decision engine that simulates real-world operational intelligence.
+## AI Ops System is a next-generation autonomous decision engine that simulates real-world operational intelligence.
 It dynamically analyzes incoming tasks, prioritizes them using a Hybrid Reinforcement Learning + LLM model, and continuously optimizes decisions for maximum efficiency.
-🔥 Built to replicate how modern AI-driven operations systems make intelligent, real-time decisions at scale.
+🔥 Built to replicate how modern AI-driven operations systems make intelligent, real-time decisions at scale. ##
 ---
 
 # ⚙️ Key Features :

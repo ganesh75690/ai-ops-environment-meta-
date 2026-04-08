@@ -142,7 +142,7 @@ def safe_get_task(obs):
     return None
 
 def run_baseline():
-    tasks = ["load_balancing_optimization", "anomaly_detection_monitoring", "resource_allocation_planning", "incident_response_automation", "performance_tuning_engine", "cost_efficiency_optimization"]
+    tasks = ["load_balancing_optimization", "anomaly_detection_monitoring", "resource_allocation_planning", "incident_response_automation", "performance_tuning_engine", "cost_efficiency_optimization", "intelligent_scheduling_system"]
     
     all_task_scores = []  # Collect scores from ALL tasks
     
@@ -158,6 +158,8 @@ def run_baseline():
             base_reward = 0.20
         elif task_name == "load_balancing_optimization":
             base_reward = 0.25
+        elif task_name == "intelligent_scheduling_system":
+            base_reward = 0.35  # New task with different value
         else:  # incident_response_automation
             base_reward = 0.30
         
@@ -211,7 +213,7 @@ def run_baseline():
     }
 
 def run_inference():
-    tasks = ["load_balancing_optimization", "anomaly_detection_monitoring", "resource_allocation_planning", "incident_response_automation", "performance_tuning_engine", "cost_efficiency_optimization"]
+    tasks = ["load_balancing_optimization", "anomaly_detection_monitoring", "resource_allocation_planning", "incident_response_automation", "performance_tuning_engine", "cost_efficiency_optimization", "intelligent_scheduling_system"]
     
     all_task_scores = []  # Collect scores from ALL tasks
     
@@ -239,6 +241,8 @@ def run_inference():
                 base_reward = 0.20
             elif task_name == "load_balancing_optimization":
                 base_reward = 0.25
+            elif task_name == "intelligent_scheduling_system":
+                base_reward = 0.35  # New task with different value
             else:  # incident_response_automation
                 base_reward = 0.30
             

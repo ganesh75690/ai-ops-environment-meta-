@@ -3,7 +3,7 @@
 Autonomous Decision-Making Environment for Task Prioritization. 
 - “From tasks to intelligence — building systems that learn to decide.”
 
-« Status: Live • Deployed • Fully Functional
+« Status: Live • Deployed 
  |  Category: AI Systems • Reinforcement Learning • DevOps Automation»
 
 ---

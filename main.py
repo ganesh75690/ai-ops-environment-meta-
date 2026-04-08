@@ -199,7 +199,7 @@ function formatLogLine(line) {
     } else if (line.includes('[STEP]')) {
         return `<span class="step">${line}</span>`;
     } else if (line.includes('[END]')) {
-        return `<span class="end">${line}</span>`;
+        return `<span class="end">${line}</span><br><br>`;
     } else if (line.includes('[ERROR]')) {
         return `<span class="error">${line}</span>`;
     } else if (line.includes('Total Reward:')) {

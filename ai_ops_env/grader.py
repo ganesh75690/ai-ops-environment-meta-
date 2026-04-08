@@ -16,7 +16,7 @@ def grade_medium(action, task):
     if action.action_type == "escalate":
         score += 0.2
 
-    return min(score, 1.0)
+    return max(0.01, min(score, 0.99))
 
 
 def grade_hard(actions, tasks):
@@ -28,10 +28,10 @@ def grade_hard(actions, tasks):
             continue
 
         if task.priority == "high" and action.action_type == "assign":
-            score += 0.4
+            score += 0.3
         elif task.priority == "medium" and action.action_type == "assign":
-            score += 0.2
+            score += 0.15
         elif action.action_type == "ignore":
             score -= 0.3
 
-    return max(0.0, min(score, 1.0))
+    return max(0.01, min(score, 0.99))

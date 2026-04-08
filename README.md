@@ -334,8 +334,10 @@ ai-ops-system/
 │
 ├── .gitignore                # Ignored files
 └── .deployignore             # Deployment exclusions
-## 🔗 Screenshots :
 ```
+---
+## 🔗 Screenshot :
+
 <img width="1918" height="766" alt="image" src="https://github.com/user-attachments/assets/6c9464e9-07f1-4ba0-854e-4bfaccdaed7e" />
 
 ---

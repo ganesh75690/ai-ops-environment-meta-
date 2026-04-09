@@ -68,7 +68,9 @@ At its core, the solution functions as an adaptive decision-making agent that co
 • Designed to be **scalable and extendable** for AI Ops, cloud systems, and workflow automation  
 
 ---
+![WhatsApp Image 2026-04-09 at 9 31 08 PM](https://github.com/user-attachments/assets/1e187893-8647-474a-bdbb-c1869104982a)
 
+---
 ## 🔗 Key Features :
 
 -  Hybrid RL + LLM decision intelligence  

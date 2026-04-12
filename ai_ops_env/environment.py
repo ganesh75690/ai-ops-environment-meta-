@@ -1,6 +1,6 @@
 from ai_ops_env.models import Action, Observation
 from ai_ops_env.reward_learning import reward_learner
-from grader import grade_easy, grade_medium, grade_hard
+from grader.grader import grade_easy, grade_medium, grade_hard
 from ai_ops_env.state import EnvState
 import random
 

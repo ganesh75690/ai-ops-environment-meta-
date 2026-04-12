@@ -45,6 +45,18 @@ Autonomous Incident Detection & Recovery using Reinforcement learning environmen
 - Explainable AI builds trust by making decisions transparent and traceable
 - Enables the vision of self-healing, autonomous infrastructure systems
 ---
+ ## 🔗 What the System Works to provide ? 
+
+This system is designed as a step toward building intelligent, autonomous infrastructure capable of managing itself without constant human intervention. It aims to shift traditional operations from reactive monitoring to proactive and adaptive decision-making using reinforcement learning.
+
+- Moving from manual incident handling to fully autonomous system management
+- Enabling self-healing infrastructure that can detect and resolve failures independently
+- Improving system reliability and uptime through intelligent, real-time decisions
+- Reducing operational complexity in large-scale and distributed environments
+- Building adaptive systems that learn and evolve with changing conditions
+- Laying the foundation for future AI-driven DevOps and cloud automation platforms
+
+---
 ## 🔗 Environment at glance :
 
 - OpenEnv-compatible RL environment tailored for real-world AI Ops scenarios
@@ -489,6 +501,30 @@ ai-ops-rl-intelligence-envrionment /
 | Validation             | OpenEnv                | Compliance checking              |
 
 ---
+## 🔗 API Endpoints used in this :
+
+| Endpoint       | Method | Purpose                     | Example Usage                                                                 |
+|----------------|--------|-----------------------------|-------------------------------------------------------------------------------|
+| /              | GET    | Main dashboard page         | http://localhost:7860/                                                        |
+| /reset         | POST   | Reset environment state     | curl -X POST http://localhost:7860/reset                                      |
+| /run           | GET    | Execute AI inference        | http://localhost:7860/run?task=load_balancing_optimization&event=HIGH_CPU&seed=42 |
+| /grader        | POST   | Grade AI actions            | curl -X POST http://localhost:7860/grader -d '{"task_id":"1","action":"scale"}' |
+| /state         | GET    | Get current system state    | http://localhost:7860/state                                                   |
+| /tasks         | GET    | List available tasks        | http://localhost:7860/tasks                                                   |
+| /reward        | GET    | Reward system status        | http://localhost:7860/reward                                                  |
+| /baseline      | GET    | Baseline metrics            | http://localhost:7860/baseline                                                |
+| /inference-raw | GET    | Raw inference output        | http://localhost:7860/inference-raw                                           |
+
+```
+/run: Main endpoint for AI execution with optional seed
+/reset: Environment reset for fresh starts
+/grader: Action scoring system
+/state: Real-time system metrics
+All endpoints return JSON responses with proper error handling!
+```
+
+---
+
 ## 🔗 Environment Variables use by this system :
 
 | Variable     | Description                     | Example Value                     |
@@ -502,7 +538,18 @@ echo "API_KEY=sk-your-api-key-here" >> .env
 echo "MODEL_NAME=Qwen/Qwen2.5-72B-Instruct" >> .env
 ```
 ---
+## 🔗 Real-World Impact this environment :
 
+This system demonstrates how reinforcement learning can transform traditional IT operations into intelligent, autonomous ecosystems capable of handling real-time challenges with minimal human intervention. By simulating realistic system failures and enabling adaptive decision-making, it showcases a practical pathway toward self-healing infrastructure and efficient incident management. The approach not only reduces response time and operational overhead but also improves system reliability and scalability in dynamic environments.
+
+- Enables autonomous incident detection and recovery in cloud and enterprise systems
+- Reduces manual intervention and operational costs through intelligent automation
+- Improves system reliability by responding faster to failures and anomalies
+- Supports scalable infrastructure management in high-load, distributed environments
+- Provides explainable decision-making for better trust and system transparency
+- Lays foundation for self-healing and resilient future infrastructure systems
+
+---
 ## 🔗 Future Enhancements :
 
 - Integration with real-world cloud infrastructure (AWS, Kubernetes)
@@ -524,6 +571,11 @@ echo "MODEL_NAME=Qwen/Qwen2.5-72B-Instruct" >> .env
 B. SAI GANESH
                     
     AI Developer | System Builder | Innovator
+---
+## 🔗 References & Inspiration towards :
+
+This project is developed following the OpenEnv framework guidelines for designing reinforcement learning environments. The implementation is inspired by standard environment design principles and extends them with adaptive decision-making, stochastic behavior, and AI-driven system recovery tailored for AI Ops scenarios.
+
 ---
 
 ## 🔗 Conclusion :

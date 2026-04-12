@@ -2,12 +2,12 @@ from pydantic import BaseModel
 from typing import List
 
 class Task(BaseModel):
-    id: int
+    id: str
     description: str
     priority: str
 
 class Action(BaseModel):
-    task_id: int
+    task_id: str
     action_type: str  # assign / escalate / ignore
 
 class Observation(BaseModel):

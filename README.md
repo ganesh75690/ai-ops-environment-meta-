@@ -132,7 +132,7 @@ Else → Continue next step
 </div>
 
 ---
-## 🔗 Why This System Stands Out :
+## 🔗 What This System Stands Out :
 
 - Combines reinforcement learning with AI Ops to enable autonomous, end-to-end incident management  
 - Moves beyond static rule-based systems to adaptive, reward-driven decision-making  

@@ -184,6 +184,31 @@ Structured logs + Summary + Final system metrics
 </div>
 
 ---
+
+## 🔗 AI Ops Intelligence Snapshot :
+
+- This table summarizes the core intelligence and engineering capabilities of the system, highlighting how each component contributes to autonomous decision-making and operational efficiency. It reflects a unified design where learning, execution, and optimization work together to transform reactive system management into a proactive, self-improving AI-driven environment.
+
+<div align="center">
+
+| Dimension             | Capability                              | Implementation                                      | Impact                                   |
+|----------------------|------------------------------------------|-----------------------------------------------------|---------------------------------------------|
+| Incident Detection   | Identifies system anomalies in real-time | Event-driven state monitoring with dynamic thresholds | Faster issue recognition and reduced downtime |
+| Decision Intelligence| Selects optimal actions under uncertainty| Reinforcement Learning (state-action-reward loop)    | Adaptive and context-aware decision making   |
+| Multi-Task Handling  | Supports diverse operational scenarios   | 10 structured tasks with difficulty & priority levels| Scalable and extensible system design        |
+| Adaptive Learning    | Improves strategy over time              | Reward-based policy updates with experience memory   | Continuous performance optimization          |
+| Execution Pipeline   | End-to-end autonomous workflow           | Detection → Analysis → Decision → Action → Recovery  | Fully automated incident resolution          |
+| Explainability       | Transparent AI decision tracking         | Structured logs with step-by-step reasoning          | Increased trust and debuggability            |
+| System Stability     | Maintains reliable performance           | Controlled transitions with termination checks       | Consistent and safe system behavior          |
+| Resource Optimization| Efficient resource utilization           | Dynamic scaling and allocation strategies            | Cost reduction with performance balance      |
+| Real-time Monitoring | Tracks live system state and metrics     | Continuous state updates with feedback loops         | Immediate insights and responsiveness        |
+| Deployment Readiness | Ready for real-world environments        | Dockerized + Hugging Face interactive deployment     | Production-oriented system capability        |
+
+</div>
+
+---
+
+
 ## 🔗 Reward System (Core Logic) :
 
 The system evaluates each decision using a weighted scoring model:
